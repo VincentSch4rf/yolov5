@@ -69,23 +69,7 @@ from yolov5.utils.datasets import LoadImages
 from yolov5.utils.general import (LOGGER, check_dataset, check_img_size, check_requirements, check_version, colorstr,
                            file_size, print_args, url2file)
 from yolov5.utils.torch_utils import select_device
-
-
-def export_formats():
-    # YOLOv5 export formats
-    x = [
-        ['PyTorch', '-', '.pt', True],
-        ['TorchScript', 'torchscript', '.torchscript', True],
-        ['ONNX', 'onnx', '.onnx', True],
-        ['OpenVINO', 'openvino', '_openvino_model', False],
-        ['TensorRT', 'engine', '.engine', True],
-        ['CoreML', 'coreml', '.mlmodel', False],
-        ['TensorFlow SavedModel', 'saved_model', '_saved_model', True],
-        ['TensorFlow GraphDef', 'pb', '.pb', True],
-        ['TensorFlow Lite', 'tflite', '.tflite', False],
-        ['TensorFlow Edge TPU', 'edgetpu', '_edgetpu.tflite', False],
-        ['TensorFlow.js', 'tfjs', '_web_model', False],]
-    return pd.DataFrame(x, columns=['Format', 'Argument', 'Suffix', 'GPU'])
+from yolov5.export import export_formats
 
 
 def export_torchscript(model, im, file, optimize, prefix=colorstr('TorchScript:')):
