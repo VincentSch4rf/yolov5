@@ -5,7 +5,7 @@ from yolov5.utils.general import LOGGER, logging, non_max_suppression
 from yolov5.utils.torch_utils import torch
 
 
-def load_model(model_path, device=None, autoshape=True, agnostic=False, verbose=False):
+def load_model(model_path, device=None, autoshape=True, agnostic=False, fp16=False, verbose=False):
     """
     Creates a specified YOLOv5 model
     Arguments:
@@ -28,7 +28,7 @@ def load_model(model_path, device=None, autoshape=True, agnostic=False, verbose=
     elif type(device) is str:
         device = torch.device(device)
 
-    model = DetectMultiBackend(model_path, device=device)
+    model = DetectMultiBackend(model_path, device=device, fp16=fp16)
 
     if autoshape:
         model = AutoShape(model, agnostic=agnostic)  # for file/URI/PIL/cv2/np inputs and NMS
@@ -36,13 +36,15 @@ def load_model(model_path, device=None, autoshape=True, agnostic=False, verbose=
 
 
 class YOLOv5:
-    def __init__(self, model_path, device=None, load_on_init=True, agnostic=False):
+    def __init__(self, model_path, device=None, load_on_init=True, agnostic=False, fp16=False):
         self.model_path = model_path
         self.device = device
         self.agnostic = agnostic
+        self.fp16 = fp16
         if load_on_init:
             Path(model_path).parents[0].mkdir(parents=True, exist_ok=True)
-            self.model = load_model(model_path=model_path, device=device, autoshape=True, agnostic=self.agnostic)
+            self.model = load_model(model_path=model_path, device=device, autoshape=True, agnostic=self.agnostic,
+                                    fp16=self.fp16)
         else:
             self.model = None
 
@@ -51,7 +53,8 @@ class YOLOv5:
         Load yolov5 weight.
         """
         Path(self.model_path).parents[0].mkdir(parents=True, exist_ok=True)
-        self.model = load_model(model_path=self.model_path, device=self.device, autoshape=True, agnostic=self.agnostic)
+        self.model = load_model(model_path=self.model_path, device=self.device, autoshape=True, agnostic=self.agnostic,
+                                fp16=self.fp16)
 
     def predict(self,
                 image_list,
