@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from yolov5.models.common import AutoShape, DetectMultiBackend
-from yolov5.utils.general import LOGGER, logging, non_max_suppression
+from yolov5.utils.general import LOGGER, logging
 from yolov5.utils.torch_utils import torch
 
 
