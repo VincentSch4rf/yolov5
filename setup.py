@@ -35,10 +35,7 @@ setuptools.setup(
     python_requires=">=3.6",
     install_requires=get_requirements(),
     extras_require={"tests": ["pytest"]},
+    data_files=[('', ['requirements.txt'])],
     include_package_data=True,
     options={'bdist_wheel': {'python_tag': 'py36.py37.py38'}},
-    entry_points={'console_scripts': [
-        "yolov5=yolov5.cli:app",
-        ],
-    }
 )
